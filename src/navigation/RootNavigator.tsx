@@ -4,8 +4,8 @@ import AuthStack from '@navigation/stacks/AuthStack.tsx';
 import {useAuth} from '@contexts/AuthContext.tsx';
 import BottomNavBar from '@navigation/BottomNavBar.tsx';
 import {useColorScheme} from 'react-native';
-import DarkTheme from '@theme/DarkTheme.tsx';
-import LightTheme from '@theme/LightTheme.tsx';
+import {AlertNotificationRoot} from 'react-native-alert-notification';
+import {DarkTheme, LightTheme, nDark, nLight} from '@theme/Colors.ts';
 
 export type RootStackParamList = {
   BottomNavBar: undefined;
@@ -20,13 +20,15 @@ export const RootNavigator = () => {
   const scheme = useColorScheme();
   return (
     <NavigationContainer theme={scheme === 'dark' ? DarkTheme : LightTheme}>
-      <Navigator screenOptions={screenOptions}>
-        {isLogged ? (
-          <Screen name="BottomNavBar" component={BottomNavBar} />
-        ) : (
-          <Screen name="AuthStack" component={AuthStack} />
-        )}
-      </Navigator>
+      <AlertNotificationRoot theme={scheme ?? 'light'} colors={[nLight, nDark]}>
+        <Navigator screenOptions={screenOptions}>
+          {isLogged ? (
+            <Screen name="BottomNavBar" component={BottomNavBar} />
+          ) : (
+            <Screen name="AuthStack" component={AuthStack} />
+          )}
+        </Navigator>
+      </AlertNotificationRoot>
     </NavigationContainer>
   );
 };

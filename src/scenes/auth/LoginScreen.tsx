@@ -1,11 +1,10 @@
 import React, {useState} from 'react';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import RootScreenWrapper from '@components/wrappers/RootScreenWrapper.tsx';
-import {KeyboardAvoidingView, ScrollView, View} from 'react-native';
+import {ActivityIndicator, ScrollView, View} from 'react-native';
 import {AuthStackParamList} from '@navigation/stacks/AuthStack.tsx';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {useTheme} from '@react-navigation/native';
-import {Indent, LargeViewSize} from '@theme/DimensionValues.ts';
+import {IconSize, Indent} from '@theme/DimensionValues.ts';
 import CustomTextInput from '@components/textInputs/CustomTextInput.tsx';
 import CustomButton from '@components/buttons/CustomButton.tsx';
 import {
@@ -16,34 +15,65 @@ import {
 } from '@utils/storage/mmkvStorage.ts';
 import {useAuth} from '@contexts/AuthContext.tsx';
 import {ALERT_TYPE, Toast} from 'react-native-alert-notification';
+import {authenticate} from '@api/requests/authenticateHelper.ts';
 
 type Props = NativeStackScreenProps<AuthStackParamList, 'LoginScreen'>;
 
 const LoginScreen: React.FC<Props> = ({}) => {
-  const [username, setUsername] = useState<string>('');
+  const [email, setEmail] = useState<string>('');
+  const [name, setName] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
+  const [isLogin, setIsLogin] = useState<boolean>(true);
+  const [processing, setProcessing] = useState(false);
   const {colors} = useTheme();
   const {setIsLogged} = useAuth();
 
-  const onLogInPressed = () => {
-    if (username && username.trim().length > 0) {
-      const saved = saveData({username});
-      if (saved) {
-        setUsername('');
-        Toast.show({
-          type: ALERT_TYPE.SUCCESS,
-          title: 'Login',
-          textBody: 'Log in successful',
-          autoClose: 400,
-        });
-        setIsLogged(true);
-      }
+  const performAuth = () => {
+    if (
+      email.trim().length === 0 ||
+      password.trim().length === 0 ||
+      (!isLogin && name.trim().length === 0)
+    ) {
+      Toast.show({
+        type: ALERT_TYPE.WARNING,
+        textBody: 'Please fill all fields',
+      });
+      return;
     }
+    const url = isLogin ? '/login' : '/register';
+    let data = {email, password, name};
+    setProcessing(true);
+    authenticate(url, data)
+      .then(response => {
+        if (response) {
+          const saved = saveData({
+            name: response.name,
+            email: response.email,
+            id: response.id,
+          });
+          if (saved) {
+            setEmail('');
+            setPassword('');
+            setName('');
+            Toast.show({
+              type: ALERT_TYPE.SUCCESS,
+              title: isLogin ? 'Login' : 'Registration',
+              textBody: isLogin
+                ? 'Login successful'
+                : 'Registration successful',
+              autoClose: 400,
+            });
+            setIsLogged(true);
+          }
+        }
+      })
+      .finally(() => {
+        setProcessing(false);
+      });
   };
 
   const saveData = (sessionData: LocalSessionDataObj): boolean => {
-    const sd: storageKeyValue[] = [
-      {key: SK.username, value: sessionData.username},
-    ];
+    const sd: storageKeyValue[] = [{key: SK.name, value: sessionData.name}];
     const result = saveMultiple(sd);
     const hasUnsaved = result.some(item => !item.success);
     if (hasUnsaved) {
@@ -62,26 +92,48 @@ const LoginScreen: React.FC<Props> = ({}) => {
 
   return (
     <RootScreenWrapper>
-      <ScrollView contentContainerStyle={{flex: 1}}>
-        <KeyboardAvoidingView style={{flex: 1, justifyContent: 'center'}}>
-          <View style={{gap: Indent.XL}}>
-            <Icon
-              name="login"
-              style={{alignSelf: 'center'}}
-              size={LargeViewSize.M}
-              color={colors.primary}
-            />
+      <ScrollView contentContainerStyle={{flex: 1, justifyContent: 'center'}}>
+        <View style={{gap: Indent.L}}>
+          {!isLogin && (
             <CustomTextInput
-              placeholder={'Enter your username'}
+              placeholder={'Enter your name'}
               keyboardType={'default'}
-              value={username}
-              onChangeText={setUsername}
-              onSubmitEditing={onLogInPressed}
+              value={name}
+              onChangeText={setName}
             />
-            <CustomButton onPress={onLogInPressed} text={'Log In'} />
-          </View>
-        </KeyboardAvoidingView>
+          )}
+          <CustomTextInput
+            placeholder={'Enter your email'}
+            keyboardType={'email-address'}
+            value={email}
+            onChangeText={setEmail}
+          />
+          <CustomTextInput
+            placeholder={'Enter your password'}
+            keyboardType={'default'}
+            secureTextEntry={true}
+            value={password}
+            onChangeText={setPassword}
+          />
+          <CustomButton
+            onPress={performAuth}
+            text={isLogin ? 'Log In' : 'Register'}
+          />
+          <CustomButton
+            onPress={() => setIsLogin(prevState => !prevState)}
+            text={isLogin ? 'Register' : 'Return to login'}
+          />
+          <CustomButton
+            onPress={() => setProcessing(prevState => !prevState)}
+            text={'toggle proccessing'}
+          />
+        </View>
       </ScrollView>
+      <ActivityIndicator
+        animating={processing}
+        size={IconSize.M}
+        color={colors.primary}
+      />
     </RootScreenWrapper>
   );
 };

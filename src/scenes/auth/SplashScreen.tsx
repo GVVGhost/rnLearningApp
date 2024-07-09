@@ -22,7 +22,7 @@ const SplashScreen: React.FC<Props> = ({navigation}) => {
   }, []);
 
   const autoLogin = () => {
-    const keys = [SK.username];
+    const keys = [SK.name];
     const session = readMultiple(keys);
     if (keys.length === session.length) {
       setIsLogged(true);

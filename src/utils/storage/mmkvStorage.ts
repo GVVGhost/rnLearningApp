@@ -1,11 +1,15 @@
 import {MMKV} from 'react-native-mmkv';
 
 export enum SK {
-  username = 'username',
+  name = 'name',
+  email = 'email',
+  id = 'id',
 }
 
 export type LocalSessionDataObj = {
-  username: string;
+  name: string;
+  email: string;
+  id: string;
 };
 
 export type storageKeyValue = {

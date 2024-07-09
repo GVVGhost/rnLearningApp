@@ -22,10 +22,10 @@ const SettingsScreen: React.FC<Props> = ({}) => {
   }, []);
 
   const init = () => {
-    const username = readOne(SK.username);
+    const name = readOne(SK.name);
     setList([
       {
-        label: `User: ${username}`,
+        label: `User: ${name}`,
         leftIconName: 'account',
       },
       {
@@ -38,7 +38,7 @@ const SettingsScreen: React.FC<Props> = ({}) => {
 
   const handleLogout = () => {
     logOutDialog(() => {
-      deleteMultiple([SK.username]);
+      deleteMultiple([SK.name]);
       setIsLogged(false);
     });
   };
