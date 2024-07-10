@@ -23,10 +23,20 @@ const SettingsScreen: React.FC<Props> = ({}) => {
   }, []);
 
   const init = () => {
+    const id = readOne(SK.id);
+    const email = readOne(SK.email);
     const name = readOne(SK.name);
     setList([
       {
         label: `User: ${name}`,
+        leftIconName: 'account',
+      },
+      {
+        label: `User email: ${email}`,
+        leftIconName: 'account',
+      },
+      {
+        label: `User id: ${id}`,
         leftIconName: 'account',
       },
       {
