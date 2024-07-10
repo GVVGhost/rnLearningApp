@@ -9,6 +9,7 @@ import PressableListComponent, {
   PressableListComponentProps,
 } from '@components/listItems/PressableListComponent.tsx';
 import {logOutDialog} from '@utils/notifications/Dialog.ts';
+import VersionInfo from 'react-native-version-info';
 
 type Props = NativeStackScreenProps<SettingsStackParamList, 'SettingsScreen'>;
 
@@ -27,6 +28,18 @@ const SettingsScreen: React.FC<Props> = ({}) => {
       {
         label: `User: ${name}`,
         leftIconName: 'account',
+      },
+      {
+        label: 'Package name: ' + VersionInfo.bundleIdentifier,
+        leftIconName: 'widgets-outline',
+      },
+      {
+        label: 'Version name: ' + VersionInfo.appVersion,
+        leftIconName: 'information-outline',
+      },
+      {
+        label: 'Version code: ' + VersionInfo.buildVersion,
+        leftIconName: 'information-outline',
       },
       {
         label: 'Log out',

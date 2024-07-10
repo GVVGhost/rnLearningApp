@@ -123,10 +123,6 @@ const LoginScreen: React.FC<Props> = ({}) => {
             onPress={() => setIsLogin(prevState => !prevState)}
             text={isLogin ? 'Register' : 'Return to login'}
           />
-          <CustomButton
-            onPress={() => setProcessing(prevState => !prevState)}
-            text={'toggle proccessing'}
-          />
         </View>
       </ScrollView>
       <ActivityIndicator
