@@ -4,12 +4,14 @@ export enum SK {
   name = 'name',
   email = 'email',
   id = 'id',
+  token = 'token',
 }
 
 export type LocalSessionDataObj = {
   name: string;
   email: string;
   id: string;
+  token: string;
 };
 
 export type storageKeyValue = {

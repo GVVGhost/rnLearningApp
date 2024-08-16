@@ -49,7 +49,8 @@ const LoginScreen: React.FC<Props> = ({}) => {
           const saved = saveData({
             name: response.name,
             email: response.email,
-            id: response.__id,
+            id: response.id,
+            token: response.token,
           });
           if (saved) {
             setEmail('');
@@ -77,6 +78,7 @@ const LoginScreen: React.FC<Props> = ({}) => {
       {key: SK.id, value: sessionData.id},
       {key: SK.name, value: sessionData.name},
       {key: SK.email, value: sessionData.email},
+      {key: SK.token, value: sessionData.token},
     ];
     const result = saveMultiple(sd);
     const hasUnsaved = result.some(item => !item.success);

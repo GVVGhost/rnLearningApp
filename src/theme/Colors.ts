@@ -26,7 +26,7 @@ export const DarkTheme: Theme = {
 };
 
 export const nLight: IColors = {
-  card: '#d6d6e0',
+  card: '#f0f0f0',
   info: '#155E92',
   label: '#69646e',
   danger: '#e63c3c',
@@ -36,9 +36,9 @@ export const nLight: IColors = {
 };
 
 export const nDark: IColors = {
-  card: '#424247',
+  card: '#323235',
   info: '#155E92',
-  label: '#69646e',
+  label: '#787878',
   danger: '#e63c3c',
   overlay: 'rgba(161,161,161,0.2)',
   warning: '#c4bf21',

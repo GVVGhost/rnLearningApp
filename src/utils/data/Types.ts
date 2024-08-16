@@ -6,5 +6,6 @@ export type CodeAndMessageObj = {
 export type AuthResObj = {
   name: string;
   email: string;
-  __id: string;
+  id: string;
+  token: string;
 };

@@ -38,3 +38,5 @@ target 'rnLearningApp' do
     )
   end
 end
+
+pod ‘react-native-config/Extension’, :path => ‘../node_modules/react-native-config’
