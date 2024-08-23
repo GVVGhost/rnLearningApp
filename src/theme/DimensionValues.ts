@@ -1,7 +1,7 @@
 export enum Indent {
-  XS = 1,
-  S = 2,
-  M = 4,
+  XS = 2,
+  S = 4,
+  M = 6,
   L = 8,
   XL = 16,
 }

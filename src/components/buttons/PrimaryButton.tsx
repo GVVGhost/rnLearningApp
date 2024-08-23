@@ -8,7 +8,7 @@ interface Props {
     onPress?: () => void;
 }
 
-const CustomButton: React.FC<Props> = (
+const PrimaryButton: React.FC<Props> = (
     {
         text = 'Button',
         onPress = () => console.log('Button pressed'),
@@ -16,7 +16,7 @@ const CustomButton: React.FC<Props> = (
 ) => {
     const {colors} = useTheme();
 
-    return <View style={{backgroundColor: colors.background, elevation: Elevation.S}}>
+    return <View style={{backgroundColor: colors.background, elevation: Elevation.S, borderRadius: CornerRadius.M}}>
         <TouchableOpacity onPress={onPress} style={{
             backgroundColor: colors.primary,
             borderRadius: CornerRadius.M,
@@ -34,4 +34,4 @@ const CustomButton: React.FC<Props> = (
 
 };
 
-export default CustomButton;
+export default PrimaryButton;

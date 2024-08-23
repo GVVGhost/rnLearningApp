@@ -5,7 +5,7 @@ import {
   Elevation,
   FontSize,
   Indent,
-} from '@theme/Dimensions/DimensionValues.ts';
+} from '@theme/DimensionValues.ts';
 
 export const TextInputStyles = StyleSheet.create({
   container: {

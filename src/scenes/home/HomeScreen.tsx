@@ -1,62 +1,102 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {HomeStackParamList} from '@navigation/stacks/HomeStack.tsx';
 import RootScreenWrapper from '@components/wrappers/RootScreenWrapper.tsx';
-import {ALERT_TYPE, IConfigToast, Toast} from 'react-native-alert-notification';
-import CustomButton from '@components/buttons/CustomButton.tsx';
-import {View} from 'react-native';
+import {FlatList, RefreshControl, View} from 'react-native';
 import {Indent} from '@theme/DimensionValues.ts';
+import TaskFacadeComponent from "@components/listItems/TaskFacadeComponent.tsx";
+import {TaskContainerObj} from "@utils/data/TaskTypes.ts";
+import {readOne, SK} from "@utils/storage/mmkvStorage.ts";
+import RoundedIconButton from "@components/buttons/RoundedIconButton.tsx";
+import uuid from 'react-native-uuid';
+import {ALERT_TYPE, Toast} from "react-native-alert-notification";
+import moment from "moment";
+import {useTaskContainerStore} from "@utils/zustand/TaskContainerStates.ts";
+import {getManyTasks} from "@api/requests/taskHelper.ts";
+import {useTheme} from "@react-navigation/native";
+import {toastShow} from "@utils/notifications/Toast.ts";
+
 
 type Props = NativeStackScreenProps<HomeStackParamList, 'HomeScreen'>;
 
-const HomeScreen: React.FC<Props> = ({}) => {
-  const showToast = (args: IConfigToast): void => Toast.show(args);
+const HomeScreen: React.FC<Props> = ({navigation}) => {
+    const {colors} = useTheme();
+    const {taskContainers, setTaskContainers} = useTaskContainerStore();
+    const [refresh, setRefresh] = useState(false);
 
-  const list: {label: string; args: IConfigToast}[] = [
-    {
-      label: 'Show WARNING Toast',
-      args: {
-        type: ALERT_TYPE.WARNING,
-        title: 'This is a WARNING Toast',
-      },
-    },
-    {
-      label: 'Show SUCCESS Toast',
-      args: {
-        type: ALERT_TYPE.SUCCESS,
-        title: 'This is a SUCCESS Toast',
-      },
-    },
-    {
-      label: 'Show INFO Toast',
-      args: {
-        type: ALERT_TYPE.INFO,
-        title: 'This is a INFO Toast',
-      },
-    },
-    {
-      label: 'Show DANGER Toast',
-      args: {
-        type: ALERT_TYPE.DANGER,
-        title: 'This is a warning Toast',
-      },
-    },
-  ];
+    useEffect(() => {
+        loadTaskContainers();
+    }, []);
 
-  return (
-    <RootScreenWrapper
-      style={{flex: 1, alignItems: 'center', justifyContent: 'space-around'}}>
-      <View style={{gap: Indent.XL}}>
-        {list.map((value, index) => (
-          <CustomButton
-            key={index}
-            text={value.label}
-            onPress={() => showToast(value.args)}
-          />
-        ))}
-      </View>
-    </RootScreenWrapper>
-  );
+    const navigateToTaskScreen = (task?: TaskContainerObj) => {
+        const name = readOne(SK.name)
+        const id = readOne(SK.id)
+        if (!name || !id) {
+            Toast.show({type: ALERT_TYPE.DANGER, title: 'Some user data missed. Try to re-login'})
+            return
+        }
+        const data: TaskContainerObj = task || {
+            uuid: uuid.v4().toString(),
+            tasks: [],
+            title: '',
+            description: '',
+            createdAt: moment.now(),
+            updatedAt: moment.now(),
+            owner: {name, id}
+        }
+        console.log(JSON.stringify(data, null, 2));
+        navigation.navigate('TaskScreen', {data, isNewTask: !task})
+    }
+
+    const loadTaskContainers = () => {
+        const userId = readOne(SK.id)
+        if (!userId) {
+            toastShow('Local data is missed. Try re-login', ALERT_TYPE.DANGER);
+            return;
+        }
+        setRefresh(true)
+        getManyTasks(userId)
+            .then(r => {
+                if (r) setTaskContainers(r);
+            })
+            .finally((): void => setRefresh(false));
+
+    }
+
+    const handleSwipe = async () => {
+        loadTaskContainers();
+    }
+
+    return (
+        <RootScreenWrapper style={{flex: 1, gap: Indent.S}}>
+            <View style={{flexDirection: 'row-reverse', marginHorizontal: Indent.M, gap: Indent.XL}}>
+                <RoundedIconButton iconName={'plus'} onPress={() => navigateToTaskScreen()}/>
+                {/*<RoundedIconButton iconName={'clipboard-text-multiple-outline'}*/}
+                {/*                   onPress={() => setTaskContainers(singleTask)}/>*/}
+            </View>
+            <FlatList
+                data={taskContainers}
+                keyExtractor={(item, index) => index.toString()}
+                initialNumToRender={20}
+                renderItem={({item, index}) => (
+                    <TaskFacadeComponent
+                        key={index.toString()}
+                        taskContainer={item}
+                        onPress={() => navigateToTaskScreen(item)}
+                    />
+                )}
+                contentContainerStyle={{gap: Indent.M, padding: Indent.M}}
+                refreshControl={
+                    <RefreshControl
+                        colors={[colors.background]}
+                        progressBackgroundColor={colors.primary}
+                        refreshing={refresh}
+                        onRefresh={handleSwipe}
+                    />
+                }
+            />
+        </RootScreenWrapper>
+    )
 };
 
 export default HomeScreen;

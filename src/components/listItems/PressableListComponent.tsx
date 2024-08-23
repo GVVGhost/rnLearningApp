@@ -27,7 +27,8 @@ const PressableListComponent: React.FC<PressableListComponentProps> = memo((
             <View
                 style={{
                     // margin: Indent.S,
-                    padding: Indent.L,
+                    paddingHorizontal: Indent.L,
+                    paddingVertical: Indent.XL,
                     backgroundColor: colors.card,
                     borderRadius: CornerRadius.M,
                     gap: Indent.L,

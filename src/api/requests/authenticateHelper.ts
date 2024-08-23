@@ -1,7 +1,7 @@
 import axiosInstance from '@api/apiHelper.ts';
 import {HttpStatusCode} from 'axios';
 import {ALERT_TYPE, Toast} from 'react-native-alert-notification';
-import {AuthResObj} from '@utils/data/Types.ts';
+import {AuthResObj} from '@utils/data/AuthTypes.ts';
 
 export const authenticate = async (
   url: '/login' | '/register',

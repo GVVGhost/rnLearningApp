@@ -4,11 +4,11 @@ import {Theme} from '@react-navigation/native';
 export const LightTheme: Theme = {
   dark: false,
   colors: {
-    primary: '#155E92',
-    background: '#c2c4d2',
-    card: '#d6d6e0',
-    text: '#69646e',
-    border: '#82828c',
+    primary: '#a36316',
+    background: '#dcd7d2',
+    card: '#faf0e6',
+    text: '#4e3e37',
+    border: '#a18a6d',
     notification: '#e63c3c',
   },
 };
@@ -16,11 +16,11 @@ export const LightTheme: Theme = {
 export const DarkTheme: Theme = {
   dark: true,
   colors: {
-    primary: '#104b75',
-    background: '#111111',
-    card: '#1E1E1E',
-    text: '#87919b',
-    border: '#2C2C35',
+    primary: '#855022',
+    background: '#171616',
+    card: '#1b1a1a',
+    text: '#817572',
+    border: '#252322',
     notification: '#783c3c',
   },
 };
