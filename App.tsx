@@ -5,7 +5,7 @@ import Config from 'react-native-config';
 
 function App(): React.JSX.Element {
   useEffect(() => {
-    console.log('Mode: ', Config.ENV);
+    console.info('Mode: ', Config.ENV);
   }, []);
   return (
     <AuthProvider>

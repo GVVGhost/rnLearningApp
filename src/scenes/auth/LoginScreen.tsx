@@ -37,37 +37,36 @@ const LoginScreen: React.FC<Props> = ({}) => {
             });
             return;
         }
-        const url = isLogin ? '/login' : '/register';
-        let data = {email, password, name};
         setProcessing(true);
-        authenticate(url, data)
-            .then(response => {
-                if (response) {
-                    const saved = saveData({
-                        name: response.name,
-                        email: response.email,
-                        id: response.id,
-                        token: response.token,
+        authenticate(
+            isLogin ? '/login' : '/register',
+            {email, password, name}
+        ).then(response => {
+            if (response) {
+                const saved = saveData({
+                    name: response.name,
+                    email: response.email,
+                    id: response.id,
+                    token: response.token,
+                });
+                if (saved) {
+                    setEmail('');
+                    setPassword('');
+                    setName('');
+                    Toast.show({
+                        type: ALERT_TYPE.SUCCESS,
+                        title: isLogin ? 'Login' : 'Registration',
+                        textBody: isLogin
+                            ? 'Login successful'
+                            : 'Registration successful',
+                        autoClose: 400,
                     });
-                    if (saved) {
-                        setEmail('');
-                        setPassword('');
-                        setName('');
-                        Toast.show({
-                            type: ALERT_TYPE.SUCCESS,
-                            title: isLogin ? 'Login' : 'Registration',
-                            textBody: isLogin
-                                ? 'Login successful'
-                                : 'Registration successful',
-                            autoClose: 400,
-                        });
-                        setIsLogged(true);
-                    }
+                    setIsLogged(true);
                 }
-            })
-            .finally(() => {
-                setProcessing(false);
-            });
+            }
+        }).finally(() => {
+            setProcessing(false);
+        });
     };
 
     const saveData = (sessionData: LocalSessionDataObj): boolean => {
@@ -94,7 +93,7 @@ const LoginScreen: React.FC<Props> = ({}) => {
     };
 
     return (
-        <RootScreenWrapper>
+        <RootScreenWrapper style={{padding: Indent.XL}}>
             <ScrollView contentContainerStyle={{flex: 1, justifyContent: 'center'}}>
                 <View style={{gap: Indent.L}}>
                     {!isLogin && (

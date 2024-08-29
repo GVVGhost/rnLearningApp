@@ -1,6 +1,7 @@
 import {ReactNode} from 'react';
 import {SafeAreaView, StatusBar, StyleProp, ViewStyle} from 'react-native';
 import {useTheme} from '@react-navigation/native';
+import {Indent} from "@theme/DimensionValues.ts";
 
 type Props = {
   children: ReactNode;
@@ -15,7 +16,7 @@ const RootScreenWrapper: React.FC<Props> = ({children, style}) => {
         {
           flex: 1,
           backgroundColor: colors.background,
-          padding: 10,
+          padding: Indent.S,
         },
         style,
       ]}>

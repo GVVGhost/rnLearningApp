@@ -57,7 +57,7 @@ export function readMultiple(keys: SK[]): storageKeyValue[] {
       }
     });
   } catch (e) {
-    console.log('Local session is missed');
+    console.error('Local session is missed');
   }
   return ans;
 }

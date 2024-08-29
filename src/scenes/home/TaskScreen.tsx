@@ -28,7 +28,7 @@ const TaskScreen: React.FC<Props> = ({route, navigation}) => {
     const textLabelStyle = labelTextStyle(theme);
 
     const {addTaskContainer, removeTaskContainer, updateTaskContainer} = useTaskContainerStore();
-    const {tasks, setTasks} = useTaskStore();
+    const {tasks, setTasks, updateTask} = useTaskStore();
 
     const [title, setTitle] = useState<string>(route.params.data.title);
     const [description, setDescription] = useState<string>(route.params.data.description);
@@ -107,6 +107,10 @@ const TaskScreen: React.FC<Props> = ({route, navigation}) => {
         navigation.goBack();
     }
 
+    const onTogglePressed = (item: TaskObj) => {
+        updateTask({...item, isComplete: !item.isComplete});
+    }
+
     return (
         <RootScreenWrapper style={{flex: 1, gap: Indent.M}}>
             <View style={{
@@ -127,7 +131,7 @@ const TaskScreen: React.FC<Props> = ({route, navigation}) => {
                 <View style={{flex: 1}}/>
                 <RoundedIconButton iconName={'arrow-left'} onPress={navigateBack}/>
             </View>
-            <ScrollView contentContainerStyle={{gap: Indent.S}}>
+            <ScrollView contentContainerStyle={{gap: Indent.S, padding: Indent.S}}>
                 <Text style={[textLabelStyle, {marginHorizontal: Indent.L}]}>Title</Text>
                 <TextInput
                     placeholderTextColor={theme.colors.text}
@@ -157,7 +161,12 @@ const TaskScreen: React.FC<Props> = ({route, navigation}) => {
                 </View>
                 {
                     tasks.map((item, index) =>
-                        <TaskListComponent key={index} item={item} onPress={(): void => openTaskInModal(item)}/>
+                        <TaskListComponent
+                            key={index}
+                            item={item}
+                            onPress={(): void => openTaskInModal(item)}
+                            onToggle={() => onTogglePressed(item)}
+                        />
                     )
                 }
             </ScrollView>

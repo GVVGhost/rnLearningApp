@@ -44,7 +44,6 @@ const HomeScreen: React.FC<Props> = ({navigation}) => {
             updatedAt: moment.now(),
             owner: {name, id}
         }
-        console.log(JSON.stringify(data, null, 2));
         navigation.navigate('TaskScreen', {data, isNewTask: !task})
     }
 
@@ -71,8 +70,6 @@ const HomeScreen: React.FC<Props> = ({navigation}) => {
         <RootScreenWrapper style={{flex: 1, gap: Indent.S}}>
             <View style={{flexDirection: 'row-reverse', marginHorizontal: Indent.M, gap: Indent.XL}}>
                 <RoundedIconButton iconName={'plus'} onPress={() => navigateToTaskScreen()}/>
-                {/*<RoundedIconButton iconName={'clipboard-text-multiple-outline'}*/}
-                {/*                   onPress={() => setTaskContainers(singleTask)}/>*/}
             </View>
             <FlatList
                 data={taskContainers}

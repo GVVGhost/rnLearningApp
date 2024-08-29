@@ -15,7 +15,7 @@ export const getOneTask = async (
         url: '/get_task_by_id',
         params: {filter: JSON.stringify(uuid)},
     });
-    await delay(2000);
+    await delay(1000);
     if (res.status !== HttpStatusCode.Ok) {
         const textBody = res.message || errorMap.get(res.status) || 'Failed to get task by id';
         Toast.show({type: ALERT_TYPE.WARNING, textBody});
@@ -30,7 +30,7 @@ export const getManyTasks = async (
     const errorMap = new Map<number, string>([
         [400, 'Bad request'],
     ]);
-    await delay(2000);
+    await delay(1000);
     let res = await axiosInstance({
         method: 'GET',
         url: '/get_tasks',
@@ -51,7 +51,7 @@ export const uploadTask = async (
     const errorMap = new Map<number, string>([
         [400, 'Bad request'],
     ]);
-    await delay(2000);
+    await delay(1000);
     let res = await axiosInstance({
         method: config.method,
         url: config.url,
@@ -71,7 +71,7 @@ export const deleteTask = async (
     const errorMap = new Map<number, string>([
         [400, 'Bad request'],
     ]);
-    await delay(2000);
+    await delay(1000);
     let res = await axiosInstance({
         method: 'DELETE',
         url: '/delete_task',

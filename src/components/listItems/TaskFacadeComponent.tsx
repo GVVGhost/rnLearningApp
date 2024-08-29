@@ -28,9 +28,9 @@ const TaskFacadeComponent: React.FC<TaskFacadeComponentProps> = memo((
                     <View style={{
                         flexDirection: 'row',
                         justifyContent: 'space-between',
-                        alignItems: 'center',
+                        alignItems: 'flex-start',
                     }}>
-                        <Text style={{fontSize: FontSize.M, color: colors.primary, fontWeight: 'bold'}}>
+                        <Text style={{fontSize: FontSize.M, color: colors.primary, fontWeight: 'bold', flexShrink: 50}}>
                             {taskContainer.title}
                         </Text>
                         <View style={{flexDirection: 'row', alignItems: 'center', gap: Indent.M}}>
@@ -41,35 +41,42 @@ const TaskFacadeComponent: React.FC<TaskFacadeComponentProps> = memo((
                         </View>
                     </View>
                     <Text style={{fontSize: FontSize.S, color: colors.text, fontWeight: '400'}}>
-                        {taskContainer.description}
+                        {taskContainer.description.length > 200 ? (taskContainer.description.substring(0, 200)+" ...") : taskContainer.description}
                     </Text>
                     <View style={{gap: Indent.M, marginVertical: Indent.L}}>
-                        {taskContainer.tasks.map((task, index) =>
-                            <View key={index}>
-                                <Text style={{
-                                    fontSize: FontSize.S,
-                                    color: colors.text,
-                                    fontWeight: task.isComplete ? '300' : '600',
-                                    textDecorationStyle: task.isComplete ? "dashed" : 'solid'
-                                }}>
-                                    {task.place}. {task.title} {task.isComplete && "(completed)"}
-                                </Text>
-                                <Text style={{
-                                    paddingStart: Indent.XL,
-                                    fontSize: FontSize.S,
-                                    color: colors.text,
-                                    fontWeight: task.isComplete ? '300' : '400'
-                                }}>
-                                    {task.description}
-                                </Text>
-                            </View>
-                        )}
+                        {
+                            (taskContainer.tasks.length < 3 ? taskContainer.tasks : taskContainer.tasks.slice(0, 3))
+                                .map((task, index) =>
+                                    <View key={index}>
+                                        <Text style={{
+                                            fontSize: FontSize.S,
+                                            color: colors.text,
+                                            fontWeight: task.isComplete ? '300' : '600',
+                                            textDecorationStyle: task.isComplete ? "dashed" : 'solid'
+                                        }}>
+                                            {task.place}. {task.title} {task.isComplete && "(completed)"}
+                                        </Text>
+                                        <Text style={{
+                                            paddingStart: Indent.XL,
+                                            fontSize: FontSize.S,
+                                            color: colors.text,
+                                            fontWeight: task.isComplete ? '300' : '400'
+                                        }}>
+                                            {task.description}
+                                        </Text>
+                                    </View>
+                                )
+                        }
+                        {
+                            taskContainer.tasks.length >= 3 &&
+                            <Text style={{paddingStart: Indent.XL, color: colors.text}}>...</Text>
+                        }
                     </View>
                     <View style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
                         <Text style={{fontSize: FontSize.S, color: colors.text, fontWeight: '300', textAlign: 'right'}}>
                             Last edit {moment(taskContainer.updatedAt).format('DD/MM/YYYY hh:mm')}
                         </Text>
-                        <RoundedIconButton onPress={onPress}/>
+                        <RoundedIconButton onPress={onPress} iconName={'chevron-right'}/>
                     </View>
 
                 </View>

@@ -1,4 +1,5 @@
 import axios, {AxiosRequestConfig, AxiosResponse} from 'axios';
+import {readOne, SK} from "@utils/storage/mmkvStorage.ts";
 
 export interface AxiosInstanceResponse<T = any> {
   success: boolean;
@@ -25,6 +26,11 @@ const axiosInstance = async <T = any>(
   }
   config.baseURL = baseURL;
 
+  const token = readOne(SK.token);
+  if (token) {
+    config.headers = {...config.headers, Authorization: `Bearer ${token}`};
+  }
+
   // console.log(JSON.stringify(config, null, 2));
 
   try {
@@ -40,6 +46,8 @@ const axiosInstance = async <T = any>(
         ans.data = err?.response?.data;
         if (ans.status === 500) {
           ans.message = 'Internal Server Error';
+        } else if (ans.status === 429) {
+          ans.message = 'Session expired. Re-login required';
         }
       } else if (err.request) {
         ans.message = 'Network error. Check internet connection';
