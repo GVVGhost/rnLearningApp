@@ -10,14 +10,12 @@ type Props = {
 
 const CardWrapper: React.FC<Props> = ({children, style}) => {
     const {colors} = useTheme();
-    return (
-        <View style={[{
-            backgroundColor: colors.card,
-            padding: Indent.XL,
-            borderRadius: CornerRadius.L,
-            elevation: Elevation.S,
-        }, style]}>{children}</View>
-    );
+    return <View style={[{
+        backgroundColor: colors.card,
+        padding: Indent.XL,
+        borderRadius: CornerRadius.L,
+        elevation: Elevation.S,
+    }, style]}>{children}</View>;
 };
 
 export default CardWrapper;

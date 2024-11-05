@@ -3,10 +3,12 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import SettingsStack, {SettingsStackParamList,} from '@navigation/stacks/SettingsStack.tsx';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {useTheme} from '@react-navigation/native';
+import TestStack, {TestStackParamList} from "@navigation/stacks/TestStack.tsx";
 
 export type BottomNavBarProps = {
     HomeStack: HomeStackParamList;
     SettingsStack: SettingsStackParamList;
+    TestStack: TestStackParamList;
 };
 
 const {Navigator, Screen} = createBottomTabNavigator<BottomNavBarProps>();
@@ -32,6 +34,16 @@ const BottomNavBar = () => {
                     headerShown: false,
                     tabBarIcon: ({color, size}) => (
                         <Icon name="home" color={color} size={size}/>
+                    ),
+                }}
+            />
+            <Screen
+                name="TestStack"
+                component={TestStack}
+                options={{
+                    headerShown: false,
+                    tabBarIcon: ({color, size}) => (
+                        <Icon name="application-edit-outline" color={color} size={size}/>
                     ),
                 }}
             />

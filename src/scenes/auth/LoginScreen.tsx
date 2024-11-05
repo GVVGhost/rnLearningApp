@@ -92,51 +92,47 @@ const LoginScreen: React.FC<Props> = ({}) => {
         return !hasUnsaved;
     };
 
-    return (
-        <RootScreenWrapper style={{padding: Indent.XL}}>
-            <ScrollView contentContainerStyle={{flex: 1, justifyContent: 'center'}}>
-                <View style={{gap: Indent.L}}>
-                    {!isLogin && (
-                        <TextInput
-                            placeholder={'Enter your name'}
-                            keyboardType={'default'}
-                            value={name}
-                            onChangeText={setName}
-                            style={textInputStyle}
-                        />
-                    )}
-                    <TextInput
-                        placeholder={'Enter your email'}
-                        keyboardType={'email-address'}
-                        value={email}
-                        onChangeText={setEmail}
-                        style={textInputStyle}
-                    />
-                    <TextInput
-                        placeholder={'Enter your password'}
-                        keyboardType={'default'}
-                        secureTextEntry={true}
-                        value={password}
-                        onChangeText={setPassword}
-                        style={textInputStyle}
-                    />
-                    <PrimaryButton
-                        onPress={performAuth}
-                        text={isLogin ? 'Log In' : 'Register'}
-                    />
-                    <PrimaryButton
-                        onPress={() => setIsLogin(prevState => !prevState)}
-                        text={isLogin ? 'Register' : 'Return to login'}
-                    />
-                </View>
-            </ScrollView>
-            <ActivityIndicator
-                animating={processing}
-                size={IconSize.M}
-                color={colors.primary}
-            />
-        </RootScreenWrapper>
-    );
+    return <RootScreenWrapper style={{padding: Indent.XL}}>
+        <ScrollView contentContainerStyle={{flex: 1, justifyContent: 'center'}}>
+            <View style={{gap: Indent.L}}>
+                {!isLogin && <TextInput
+                    placeholder={'Enter your name'}
+                    keyboardType={'default'}
+                    value={name}
+                    onChangeText={setName}
+                    style={textInputStyle}
+                />}
+                <TextInput
+                    placeholder={'Enter your email'}
+                    keyboardType={'email-address'}
+                    value={email}
+                    onChangeText={setEmail}
+                    style={textInputStyle}
+                />
+                <TextInput
+                    placeholder={'Enter your password'}
+                    keyboardType={'default'}
+                    secureTextEntry={true}
+                    value={password}
+                    onChangeText={setPassword}
+                    style={textInputStyle}
+                />
+                <PrimaryButton
+                    onPress={performAuth}
+                    text={isLogin ? 'Log In' : 'Register'}
+                />
+                <PrimaryButton
+                    onPress={() => setIsLogin(prevState => !prevState)}
+                    text={isLogin ? 'Register' : 'Return to login'}
+                />
+            </View>
+        </ScrollView>
+        <ActivityIndicator
+            animating={processing}
+            size={IconSize.M}
+            color={colors.primary}
+        />
+    </RootScreenWrapper>;
 };
 
 export default LoginScreen;

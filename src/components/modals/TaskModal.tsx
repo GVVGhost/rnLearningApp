@@ -63,37 +63,35 @@ const TaskModal: React.FC<TaskModalProps> = (
         setIsComplete(existedTask?.isComplete || false)
     }, [existedTask]);
 
-    return (
-        <SlideModal
-            visible={visible}
-            onDismiss={{label: 'Close', action: onDismiss}}
-            onAccept={{label: existedTask ? 'Update' : 'Add', action: onAcceptPressed}}
-        >
-            <View style={{padding: Indent.L, gap: Indent.XL}}>
-                <TextInput
-                    placeholderTextColor={theme.colors.text}
-                    placeholder={'Enter the title'}
-                    value={title} onChangeText={setTitle}
-                    style={textInputStyle}
-                />
-                <TextInput
-                    placeholderTextColor={theme.colors.text}
-                    placeholder={'Enter the description'}
-                    multiline={true}
-                    scrollEnabled={true}
-                    numberOfLines={3}
-                    value={description}
-                    onChangeText={setDescription}
-                    style={[textInputStyle, {maxHeight: 100}]}
-                />
-                <View style={{flexDirection: 'row', justifyContent: 'space-between', paddingVertical: Indent.M}}>
-                    <Text style={[textLabelStyle, {paddingStart: Indent.L}]}>Completed</Text>
-                    <Switch value={isComplete} onValueChange={setIsComplete}/>
-                </View>
-                {existedTask && <SecondaryButton text={'Delete this task'} onPress={onDeletePressed}/>}
+    return <SlideModal
+        visible={visible}
+        onDismiss={{label: 'Close', action: onDismiss}}
+        onAccept={{label: existedTask ? 'Update' : 'Add', action: onAcceptPressed}}
+    >
+        <View style={{padding: Indent.L, gap: Indent.XL}}>
+            <TextInput
+                placeholderTextColor={theme.colors.text}
+                placeholder={'Enter the title'}
+                value={title} onChangeText={setTitle}
+                style={textInputStyle}
+            />
+            <TextInput
+                placeholderTextColor={theme.colors.text}
+                placeholder={'Enter the description'}
+                multiline={true}
+                scrollEnabled={true}
+                numberOfLines={3}
+                value={description}
+                onChangeText={setDescription}
+                style={[textInputStyle, {maxHeight: 100}]}
+            />
+            <View style={{flexDirection: 'row', justifyContent: 'space-between', paddingVertical: Indent.M}}>
+                <Text style={[textLabelStyle, {paddingStart: Indent.L}]}>Completed</Text>
+                <Switch value={isComplete} onValueChange={setIsComplete}/>
             </View>
-        </SlideModal>
-    );
+            {existedTask && <SecondaryButton text={'Delete this task'} onPress={onDeletePressed}/>}
+        </View>
+    </SlideModal>;
 }
 
 export default TaskModal;

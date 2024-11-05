@@ -4,26 +4,24 @@ import {useTheme} from '@react-navigation/native';
 import {Indent} from "@theme/DimensionValues.ts";
 
 type Props = {
-  children: ReactNode;
-  style?: StyleProp<ViewStyle>;
+    children: ReactNode;
+    style?: StyleProp<ViewStyle>;
 };
 
 const RootScreenWrapper: React.FC<Props> = ({children, style}) => {
-  const {colors} = useTheme();
-  return (
-    <SafeAreaView
-      style={[
-        {
-          flex: 1,
-          backgroundColor: colors.background,
-          padding: Indent.S,
-        },
-        style,
-      ]}>
-      <StatusBar backgroundColor={colors?.primary} barStyle="light-content" />
-      {children}
-    </SafeAreaView>
-  );
+    const {colors} = useTheme();
+    return <SafeAreaView
+        style={[
+            {
+                flex: 1,
+                backgroundColor: colors.background,
+                padding: Indent.S,
+            },
+            style,
+        ]}>
+        <StatusBar backgroundColor={colors?.primary} barStyle="light-content"/>
+        {children}
+    </SafeAreaView>;
 };
 
 export default RootScreenWrapper;

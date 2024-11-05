@@ -16,7 +16,6 @@ import {getManyTasks} from "@api/requests/taskHelper.ts";
 import {useTheme} from "@react-navigation/native";
 import {toastShow} from "@utils/notifications/Toast.ts";
 
-
 type Props = NativeStackScreenProps<HomeStackParamList, 'HomeScreen'>;
 
 const HomeScreen: React.FC<Props> = ({navigation}) => {
@@ -32,7 +31,7 @@ const HomeScreen: React.FC<Props> = ({navigation}) => {
         const name = readOne(SK.name)
         const id = readOne(SK.id)
         if (!name || !id) {
-            Toast.show({type: ALERT_TYPE.DANGER, title: 'Some user data missed. Try to re-login'})
+            Toast.show({type: ALERT_TYPE.DANGER, title: 'Some user data is missing. Try to re-login'})
             return
         }
         const data: TaskContainerObj = task || {

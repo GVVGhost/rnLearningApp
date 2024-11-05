@@ -23,31 +23,26 @@ const PressableListComponent: React.FC<PressableListComponentProps> = memo((
         const {colors} = useTheme();
         const onPress = handler && handler.onPress
 
-        return (
-            <View
-                style={{
-                    // margin: Indent.S,
-                    paddingHorizontal: Indent.L,
-                    paddingVertical: Indent.XL,
-                    backgroundColor: colors.card,
-                    borderRadius: CornerRadius.M,
-                    gap: Indent.L,
-                    elevation: Elevation.S,
-                }}
-            >
-                <TouchableOpacity disabled={!handler} onPress={onPress}>
-                    <View style={{flexDirection: 'row'}}>
-                        <View style={{flex: 1, flexDirection: 'row', gap: Indent.L}}>
-                            <Icon name={leftIconName} size={IconSize.S} color={colors.primary}/>
-                            <Text style={{fontSize: FontSize.S, color: colors.primary, fontWeight: '500'}}>
-                                {label}
-                            </Text>
-                        </View>
-                        {handler && (<Icon name={handler.iconName} size={IconSize.S} color={colors.primary}/>)}
+        return <View style={{
+            paddingHorizontal: Indent.L,
+            paddingVertical: Indent.XL,
+            backgroundColor: colors.card,
+            borderRadius: CornerRadius.M,
+            gap: Indent.L,
+            elevation: Elevation.S,
+        }}>
+            <TouchableOpacity disabled={!handler} onPress={onPress} >
+                <View style={{flexDirection: 'row'}}>
+                    <View style={{flex: 1, flexDirection: 'row', gap: Indent.L}}>
+                        <Icon name={leftIconName} size={IconSize.S} color={colors.primary}/>
+                        <Text style={{fontSize: FontSize.S, color: colors.primary, fontWeight: '500'}}>
+                            {label}
+                        </Text>
                     </View>
-                </TouchableOpacity>
-            </View>
-        );
+                    {handler && <Icon name={handler.iconName} size={IconSize.S} color={colors.primary}/>}
+                </View>
+            </TouchableOpacity>
+        </View>;
     },
 );
 

@@ -21,31 +21,29 @@ const SlideModal: React.FC<SlideModalProps> = (
 ) => {
     const {colors} = useTheme();
 
-    return (
-        <Modal style={{height: '100%', width: '100%'}} animationType="slide" transparent={true} visible={visible}>
-            <View style={{flex: 1, flexDirection: 'column'}}>
-                <TouchableWithoutFeedback onPress={onDismiss.action}>
-                    <View style={{flex: 1}}/>
-                </TouchableWithoutFeedback>
-                <ScrollView contentContainerStyle={{
-                    backgroundColor: colors.background,
-                    borderColor: colors.border,
-                    borderTopEndRadius: CornerRadius.XL,
-                    borderTopStartRadius: CornerRadius.XL,
-                    borderWidth: BorderWidth.L,
-                    elevation: Elevation.S,
-                    flex: 1,
-                    paddingBottom: "20%",
-                }}>
-                    <View style={{flexDirection: 'row', gap: 60, justifyContent: 'space-between', padding: Indent.XL}}>
-                        <SecondaryButton text={onDismiss.label} onPress={onDismiss.action} flex={1}/>
-                        {onAccept && <SecondaryButton text={onAccept.label} onPress={onAccept.action} flex={1}/>}
-                    </View>
-                    {children}
-                </ScrollView>
-            </View>
-        </Modal>
-    );
+    return <Modal style={{height: '100%', width: '100%'}} animationType="slide" transparent={true} visible={visible}>
+        <View style={{flex: 1, flexDirection: 'column'}}>
+            <TouchableWithoutFeedback onPress={onDismiss.action}>
+                <View style={{flex: 1}}/>
+            </TouchableWithoutFeedback>
+            <ScrollView contentContainerStyle={{
+                backgroundColor: colors.background,
+                borderColor: colors.border,
+                borderTopEndRadius: CornerRadius.XL,
+                borderTopStartRadius: CornerRadius.XL,
+                borderWidth: BorderWidth.L,
+                elevation: Elevation.S,
+                flex: 1,
+                paddingBottom: "20%",
+            }}>
+                <View style={{flexDirection: 'row', gap: 60, justifyContent: 'space-between', padding: Indent.XL}}>
+                    <SecondaryButton text={onDismiss.label} onPress={onDismiss.action} flex={1}/>
+                    {onAccept && <SecondaryButton text={onAccept.label} onPress={onAccept.action} flex={1}/>}
+                </View>
+                {children}
+            </ScrollView>
+        </View>
+    </Modal>;
 }
 
 export default SlideModal;
